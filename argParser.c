@@ -26,8 +26,9 @@ bool isOutputFile(struct Parameters p) {
 	return false;
 
 	return true;
-
 }
+
+
 
 parameters getParameters(int argc, char const *argv[]) {
 	struct Parameters result = {cesar, encode, 0, "PlaceOlder666"};
@@ -96,28 +97,25 @@ parameters getParameters(int argc, char const *argv[]) {
 
 
 void printParamters(struct Parameters p) {
-	if (p.chosenAlgo == cesar) {
-		printf("code : Cesar\n");
-	}
-	else if(p.chosenAlgo == vigenere) {
-		printf("code : Vigenere\n");
-	}
-	else printf("code : UNDEFINED\n");
-
+	printf("This program will ");
 	if (p.codeOrDecode == encode) {
-		printf("to encode\n");
+		printf("encode");
 	}
 	else if (p.codeOrDecode == decode) {
-		printf("to decode\n");
+		printf("decode");
 	}
-	else printf("action: UNDEFINED\n");
 
-	printf("The key is %d\n", p.key);
+	printf(" your message using ");
+	if (p.chosenAlgo == cesar) {
+		printf("Cesar");
+	}
+	else if(p.chosenAlgo == vigenere) {
+		printf("Vigenere");
+	}
+
+	printf(" Algorithim using key %d\n", p.key);
 	if (isOutputFile(p))
 	{
-		printf("output file %s\n", p.filepath);
-	}else {
-		printf("No output file defined\n");
+		printf("the output will be saved at: %s\n", p.filepath);
 	}
-
 }
