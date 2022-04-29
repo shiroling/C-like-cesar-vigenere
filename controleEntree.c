@@ -18,10 +18,10 @@ int isAccent(wchar_t wstrIn) {
 bool verifierAlphanumérique(wchar_t *wstr) {
     for (int i = 0; i < wcslen(wstr); ++i)
     {
-        if (!iswalnum(wstr[i]) && isAccent(wstr[i]) == -1 && wstr[i] != L' ')
+        if (!iswalnum(wstr[i]) && isAccent(wstr[i]) == -1 && wstr[i] != L' ' && wstr[i] != L'\n')
         {
             wprintf(L"Le char : '%c' n'est pas alphaNum\n", wstr[i]);
-            exit(EXIT_FAILURE);
+            return false;
         }
     }
     return true;
@@ -53,7 +53,7 @@ char *convertirAccents(wchar_t *wstrIn) {
     return messageNonAccent;
 }
 
-char *replaceSpaces(char* str) {
+char *convertirEspaces(char* str) {
     for (int i = 0; i < strlen(str); ++i)
         if (str[i] == ' ')
             str[i] = '`'; 

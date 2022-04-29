@@ -21,16 +21,14 @@ typedef enum
 typedef struct Parameters{
     algo chosenAlgo;
     action codeOrDecode;
-    int key;
     char filepath[1024];
 } parameters;
 
-static const char* const arguments[] = {"-h", "-c", "-v", "-k", "--encode", "--decode", "-o"};
+static const char* const arguments[] = {"-h", "-c", "-v", "--encode", "--decode", "-o"};
 void printHelp();
 void printParamters(struct Parameters p);
 
 bool isOutputFile(struct Parameters p);
-bool isComplete(struct Parameters p);
 
 int getArgId(const char *arg);
 

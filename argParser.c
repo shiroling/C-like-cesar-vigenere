@@ -6,7 +6,7 @@ void printHelp() {
 	printf("Then add arguments like :\n\t-k\tFor the encription key\n\t--encode / --decode\tTo code or decode the input message.\n\n");
 	printf("Also you can let the output directly to a file with :\n\t-o\tFollowed by the output file path.\n");
 	printf("Note\n- If the output file exist text will be append to it, if not it will be created.\n");
-	printf("- You can pipe the message to this program or it will be asked to you during the execution time.\n");
+	printf("- The message will be asked to you during the execution time.\n");
 	printf("- By default the program will encode in cesar with a key of 0.\n");
 }
 
@@ -31,7 +31,7 @@ bool isOutputFile(struct Parameters p) {
 
 
 parameters getParameters(int argc, char const *argv[]) {
-	struct Parameters result = {cesar, encode, 0, "PlaceOlder666"};
+	struct Parameters result = {cesar, encode, 0, "a","PlaceOlder666"};
 	for (int i = 1; i < argc; ++i)
 	{
 		if (getArgId(argv[i]) == -1)
@@ -53,28 +53,12 @@ parameters getParameters(int argc, char const *argv[]) {
 			        result.chosenAlgo = vigenere;
 			        break;
 			    case 3:
-			    	i++;
-			    	for (int j = 0; j< strlen(argv[i]); ++j)
-			    	{
-			    		if (!isdigit(argv[i][j]))
-			    		{
-			    			printf("Key %s is not a digit\n", argv[i]);
-			    			exit(EXIT_FAILURE);
-			    		}
-			    	}
-			        result.key = atoi(argv[i]);
-			        if (result.key == 0)
-			        {
-			        	printf("Warning, the key has been interpreted as 0.\n");
-			        }
-			        break;
-			    case 4:
 			        result.codeOrDecode = encode;
 			        break;
-			    case 5:
+			    case 4:
 			        result.codeOrDecode = decode;
 			        break;
-			    case 6:
+			    case 5:
 			    	i++;
 			    	if(i >= argc) {
 			    		printf("Missing argument after: %s\n", argv[i-1]);
@@ -113,7 +97,8 @@ void printParamters(struct Parameters p) {
 		printf("Vigenere");
 	}
 
-	printf(" Algorithim using key %d\n", p.key);
+	printf(" clé cesar: %d\n", p.dkey);
+	printf(" clé vigenère: %s\n", p.ckey);
 	if (isOutputFile(p))
 	{
 		printf("the output will be saved at: %s\n", p.filepath);
