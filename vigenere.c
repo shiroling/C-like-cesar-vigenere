@@ -1,4 +1,4 @@
-#include "vigenère.h"
+#include "vigenere.h"
 
 int getOffcet(char c) {
     return tolower(c) - 'a';

@@ -5,7 +5,7 @@
 
 #include "argParser.h"
 #include "controleEntree.h"
-#include "vigenère.h"
+#include "vigenere.h"
 
 #define BUFF 2048
 
