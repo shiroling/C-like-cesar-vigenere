@@ -1,13 +1,13 @@
 #include "argParser.h"
 
 void printHelp() {
-	printf("The argument -h take you to this help page.\n\n");
-	printf("Chose your codage algoritim with :\n\t-c\tCesar\n\t-v\tVigenere\n\n");
-	printf("Then add arguments like :\n\t-k\tFor the encription key\n\t--encode / --decode\tTo code or decode the input message.\n\n");
-	printf("Also you can let the output directly to a file with :\n\t-o\tFollowed by the output file path.\n");
-	printf("Note\n- If the output file exist text will be append to it, if not it will be created.\n");
-	printf("- The message will be asked to you during the execution time.\n");
-	printf("- By default the program will encode in cesar with a key of 0.\n");
+	printf("l'argument -h vous amméne su cette belle page d'aide.\n\n");
+	printf("pour choisir un algorithme de codage : \n\t-c\tCesar\n\t-v\tVigenere\n\n");
+	printf("Choisissez si vous voulez encoder ou décoder :\n\t--encode / --decode\t\n\n");
+	printf("Pour enregistrer le résultat dans un fichier faites :\n\t-o\tSuivit par le chemin du fichier.\n");
+	printf("Note\n- Le fichier de sortie peut étre créé en écrasant un fichier exixtant du méme nom.\n");
+	printf("- Votre message et la clé vous seront demandés pendant l'éxécution du script.\n");
+	printf("- Par défaut le programme encoderas en cesar avec une clé de 0.\n");
 }
 
 int getArgId(const char *arg) {
@@ -23,7 +23,7 @@ int getArgId(const char *arg) {
 
 bool isOutputFile(struct Parameters p) {
 	if (strcmp(p.filepath, "PlaceOlder666")== 0)
-	return false;
+		return false;
 
 	return true;
 }
@@ -31,7 +31,7 @@ bool isOutputFile(struct Parameters p) {
 
 
 parameters getParameters(int argc, char const *argv[]) {
-	struct Parameters result = {cesar, encode, 0, "a","PlaceOlder666"};
+	struct Parameters result = {cesar, encode,"PlaceOlder666"};
 	for (int i = 1; i < argc; ++i)
 	{
 		if (getArgId(argv[i]) == -1)
@@ -96,9 +96,6 @@ void printParamters(struct Parameters p) {
 	else if(p.chosenAlgo == vigenere) {
 		printf("Vigenere");
 	}
-
-	printf(" clé cesar: %d\n", p.dkey);
-	printf(" clé vigenère: %s\n", p.ckey);
 	if (isOutputFile(p))
 	{
 		printf("the output will be saved at: %s\n", p.filepath);

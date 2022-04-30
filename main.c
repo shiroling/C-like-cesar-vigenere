@@ -1,26 +1,29 @@
+#include <stdio.h>
 #include <wctype.h>
 #include <wchar.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <locale.h>
+#include <stdarg.h>
 
 #include "argParser.h"
 #include "controleEntree.h"
 #include "vigenere.h"
+#include "cesar.h"
 
-#define BUFF 2048
+#define BUFFE 2048
 
 
 char *cesarPart(action cOd, int cle,  char *messageClair) {
 	switch (cOd)	{
     case 0:			//cas encode
-        printf("@ encode, cesar\n");
+        return chiffrementCesar(messageClair, cle);
         break;
     case 1:			//cas decode
-        printf("@ decode, cesar\n");
-
+    	return déchiffrementCesar(messageClair, cle);
         break;
 	default:
-        printf("Il y a un probléme avec l'algo choisi\n");
+        printf("Il y a un probléme avec l'algo de césar\n");
 		break;
 	}
 
@@ -31,16 +34,13 @@ char *vigenerePart(action cOd, char* cle, char *message) {
 
 	switch (cOd)	{
     case 0:			//cas encode
-        	printf("@ encode, vig\n");
-        	printf("%s\n", chiffrementVigenere(cle, message));
         	return chiffrementVigenere(cle, message);
         break;
     case 1:			//cas decode
-        	printf("@ decode, vig\n");
 			return déchiffrementVigenere(cle, message);
         break;
 	default:
-        printf("Il y a un probléme avec l'algo choisi\n");
+        printf("Il y a un probléme avec l'algo de vigenère\n");
 		break;
 	}
 
@@ -48,6 +48,8 @@ char *vigenerePart(action cOd, char* cle, char *message) {
 }
 
 int main(int argc, char const *argv[]) {
+	setlocale(LC_ALL, "POSIX");
+
 	if(argc < 2) {
 		printf("Il manque des arguments, faites -h pour consulter l'aide\n");
 		return 1;
@@ -57,31 +59,19 @@ int main(int argc, char const *argv[]) {
 
 	printParamters(p);
 
-	size_t bufsize = BUFF;
-    char mes[BUFF];
-	printf("SVP, Donnez lz message.\t(si c'est pour un chiffrement, il peut contenir des accents)\nLes accents seront convertis en lettre classiques\n\nVotre message:\n");
-    scanf("%s", mes);
 
-	wchar_t wmessage[BUFF];
-	mbstowcs(wmessage, mes, BUFF);
-
-	if(!verifierAlphanumérique(wmessage)) {
-		printf("Erreur: le message contient de charactéres contre-indiqués\n");
-		exit(EXIT_FAILURE);
-	}
-
-	char *message = convertirEspaces( convertirAccents(wmessage));
+	char *message = getInputMessage();
 
 	switch (p.chosenAlgo)	{
-	    case 0:			//cas ou l'on cesar
+	    case 0:			//cas cesar
 	    	int dcle = 0;
-	    	printf("Entrez la clé pour l'algorithme de césar\n");
+	    	printf("Entrez la clé pour l'algorithme de césar (nombre) : \t");
 	    	scanf("%d", &dcle);
 	    	message = cesarPart(p.codeOrDecode, dcle,  message);
 	        break;
 	    case 1:			//cas ou l'on vigenère
-    	    size_t bufsize = BUFF;
-		    char ccle[BUFF];
+    	    size_t bufsize = BUFFE;
+		    char ccle[BUFFE];
 		    printf("Entrez la clé pour l'algorithme de vigenère (lettre) :\t");
 		    scanf("%s", ccle);
 	    	
@@ -93,7 +83,6 @@ int main(int argc, char const *argv[]) {
 	    			exit(EXIT_FAILURE);
 	    		}
 	    	}
-	    	printf("clé valide\n");
 		    message = vigenerePart(p.codeOrDecode, ccle, message);
 
 	        break;
@@ -102,7 +91,21 @@ int main(int argc, char const *argv[]) {
 			break;
 	}
 
-	printf("final: %s\n", message);
+	printf("Message final:\n%s\n", message);
+
+	if (isOutputFile(p))
+	{
+		FILE *fic = fopen(p.filepath , "w+");
+		if (fic == NULL)
+		{
+			printf("Le programme n'as pas pu écrire dans le fichier donné\n");
+			exit(EXIT_FAILURE);
+		}
+
+		fprintf(fic, "Message final:\n%s\n", message);
+		fclose(fic);
+	}
+
 
 	return 0;
 }

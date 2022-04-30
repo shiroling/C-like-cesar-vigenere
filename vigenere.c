@@ -21,7 +21,11 @@ char *chiffrementVigenere(char *cle, char *messageClair) {
         }else
         if  (isdigit(messageClair[i])) {
             messageChiffré[i]= (messageClair[i] + getOffcet(cle[i% lencle]) - '0') % 10 + '0';
-        }else {
+        }else 
+        if (messageClair[i] == ' ') { // espaces
+            messageChiffré[i]= ' ';
+        }
+        else {
             printf("FAILURE : Can't manage the %c character\n", messageClair[i]);
             exit(EXIT_FAILURE);
         }
@@ -46,37 +50,14 @@ char *déchiffrementVigenere(char *cle, char *messageChiffré) {
         }else
         if  (isdigit(messageChiffré[i])) {
             messageClair[i]= '0' + (messageChiffré[i] - getOffcet(cle[i% lencle]) - '0' + 10) % 10;
-        }else {
+        }else 
+        if (messageChiffré[i] == ' ') { // espaces
+            messageClair[i]= ' ';
+        }
+        else {
             printf("FAILURE : Can't manage the %c character\n", messageChiffré[i]);
             exit(EXIT_FAILURE);
         }    
     }
     return messageClair;
 }
-
-/*
-int main(int argc, char const *argv[])
-{
-    size_t bufsize = BUFF;
-
-    char cle2[BUFF];
-    printf("Donnez une clée de cryptage (lettre) :\t");
-    scanf("%s", cle2);
-
-    char messageClair[BUFF];
-    printf("Donnez à présent votre message (ne sautez de ligne qu'à la fin) :");
-    scanf("%s", messageClair);
-
-    char mess1[BUFF], mess2[BUFF];
-
-    strncpy(mess1, chiffrementVigenere(cle2, messageClair), BUFF);
-    printf("chiffré:\t %s\n", mess1);
-
-    strcpy(mess2, déchiffrementVigenere(cle2, mess1));
-    printf("déchiffré:\t .%s.\n", mess2);
-
-
-    return 0;
-}
-
-*/
