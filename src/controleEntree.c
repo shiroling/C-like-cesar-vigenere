@@ -1,4 +1,25 @@
-#include "controleEntree.h"
+/******************************************************************************
+*  ASR => 4R2.04                                                              *
+*******************************************************************************
+*                                                                             *
+*  N° de Sujet : 3                                                            * 
+*******************************************************************************
+*                                                                             *
+*  Intitulé :    Chiffrement de messages                                      *
+*******************************************************************************
+*                                                                             *
+*  Nom-prénom1 : COUTURIER Quentin                                            *
+*                                                                             *
+*  Nom-prénom2 : CHELLE Elena                                                 *
+*                                                                             *
+*  Nom-prénom3 : FERREIRA Iannis                                              *
+*******************************************************************************
+*                                                                             *
+*  Nom du fichier :  controleEntree.c                                         *
+*                                                                             *
+******************************************************************************/
+
+#include "../includes/controleEntree.h"
 
 #define BUFF 2048
 
@@ -22,19 +43,6 @@ char *getInputMessage() {
 //------------------------------
 //---------VERIFICATION---------
 //------------------------------
-// Fonctionnel mais pas utilisé car l'accisition de la chaine d'entrée en wchar_t ne marche pas
-
-int isAccent(wchar_t wcIn) {
-    wchar_t *accent = L"ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÌÍÎÏìíîïÙÚÛÜùúûüÿÑñÇç";
-                     //"AAAAAAaaaaaaOOOOOOooooooEEEEeeeeIIIIiiiiUUUUuuuuyNnCc"
-    for (int i = 0; i < 53; ++i)
-    {
-        if (wcIn == accent[i])
-            return i;
-    }
-    return -1;
-}
-
 bool verifierAlphanumérique(char *str) {
     for (int i = 0; i < strlen(str); ++i)
     {
@@ -48,11 +56,22 @@ bool verifierAlphanumérique(char *str) {
 }
 
 
+// Fonctionnel mais pas utilisé car l'accisition de la chaine d'entrée en wchar_t ne marche pas
+int isAccent(wchar_t wcIn) {
+    wchar_t *accent = L"ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÌÍÎÏìíîïÙÚÛÜùúûüÿÑñÇç";
+                     //"AAAAAAaaaaaaOOOOOOooooooEEEEeeeeIIIIiiiiUUUUuuuuyNnCc"
+    for (int i = 0; i < 53; ++i)
+    {
+        if (wcIn == accent[i])
+            return i;
+    }
+    return -1;
+}
+
 //------------------------------
 //----------TRAITEMRNT----------
 //------------------------------
 // Cette partie là du code mache mais n'est pa utilisé car l'accisition de la chaine d'entrée en wchar_t ne marche pas
-
 char *convertirAccents(wchar_t *wcstr) {
     // 2nd partie de la table de correspondance des accents, la premiére étant dans int isAccent(wchar_t wstrIn).
     char sansAccent[53] = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeIIIIiiiiUUUUuuuuyNnCc";
@@ -72,7 +91,6 @@ char *convertirAccents(wchar_t *wcstr) {
         {
             messageNonAccent[i] = wcstr[i];
         }
-
     }
     return messageNonAccent;
 }

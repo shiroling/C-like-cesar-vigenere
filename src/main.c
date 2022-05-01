@@ -1,17 +1,34 @@
+/******************************************************************************
+*  ASR => 4R2.04                                                              *
+*******************************************************************************
+*                                                                             *
+*  N° de Sujet : 3                                                            * 
+*******************************************************************************
+*                                                                             *
+*  Intitulé :    Chiffrement de messages                                      *
+*******************************************************************************
+*                                                                             *
+*  Nom-prénom1 : COUTURIER Quentin                                            *
+*                                                                             *
+*  Nom-prénom2 : CHELLE Elena                                                 *
+*                                                                             *
+*  Nom-prénom3 : FERREIRA Iannis                                              *
+*******************************************************************************
+*                                                                             *
+*  Nom du fichier : main.c                                                    *
+*                                                                             *
+******************************************************************************/
+
 #include <stdio.h>
-#include <wctype.h>
-#include <wchar.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include <locale.h>
-#include <stdarg.h>
 
-#include "argParser.h"
-#include "controleEntree.h"
-#include "vigenere.h"
-#include "cesar.h"
+#include "../includes/argParser.h"
+#include "../includes/controleEntree.h"
+#include "../includes/vigenere.h"
+#include "../includes/cesar.h"
 
-#define BUFFE 2048
+#define BUFFER 2048
 
 
 char *cesarPart(action cOd, int cle,  char *messageClair) {
@@ -48,8 +65,6 @@ char *vigenerePart(action cOd, char* cle, char *message) {
 }
 
 int main(int argc, char const *argv[]) {
-	setlocale(LC_ALL, "POSIX");
-
 	if(argc < 2) {
 		printf("Il manque des arguments, faites -h pour consulter l'aide\n");
 		return 1;
@@ -70,8 +85,8 @@ int main(int argc, char const *argv[]) {
 	    	message = cesarPart(p.codeOrDecode, dcle,  message);
 	        break;
 	    case 1:			//cas ou l'on vigenère
-    	    size_t bufsize = BUFFE;
-		    char ccle[BUFFE];
+    	    size_t bufsize = BUFFER;
+		    char ccle[BUFFER];
 		    printf("Entrez la clé pour l'algorithme de vigenère (lettre) :\t");
 		    scanf("%s", ccle);
 	    	
