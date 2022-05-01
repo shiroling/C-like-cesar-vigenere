@@ -72,9 +72,6 @@ int main(int argc, char const *argv[]) {
 
 	struct Parameters p = getParameters(argc, argv);
 
-	printParamters(p);
-
-
 	char *message = getInputMessage();
 
 	switch (p.chosenAlgo)	{
